@@ -1,0 +1,34 @@
+{
+  "name": "workbook",
+  "version": "1.0.0",
+  "description": "",
+  "main": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "npx webpack",
+    "watch": "npx webpack --watch",
+    "start": "webpack serve"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/koishi755/workbook.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/koishi755/workbook/issues"
+  },
+  "homepage": "https://github.com/koishi755/workbook#readme",
+  "dependencies": {
+    "css-loader": "^5.0.1",
+    "jquery": "^3.5.1",
+    "mini-css-extract-plugin": "^1.3.5",
+    "sass": "^1.32.6",
+    "sass-loader": "^10.1.1",
+    "webpack": "^5.20.1",
+    "webpack-cli": "^4.5.0"
+  },
+  "devDependencies": {
+    "webpack-dev-server": "^3.11.2"
+  }
+}
