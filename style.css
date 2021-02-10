@@ -4,3 +4,22 @@
 .green {
     background-color: #7bc52e;
 }
+#button {
+    margin: 0;
+    padding: 8px;
+    font-size: 12px;
+    color: #ffffff;
+    background-color: #23628f;
+    text-align: center;
+    cursor: pointer;
+}
+
+.start_quiz {
+    margin: 0;
+    padding: 8px;
+    font-size: 12px;
+    color: #ffffff;
+    background-color: #23628f;
+    text-align: center;
+    cursor: pointer;
+}

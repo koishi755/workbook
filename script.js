@@ -1,6 +1,43 @@
 "use strict";
 let count = 1 ;
-let url 
+let url; 
+let json_length;
+
+// 画面を開いた時の処理
+$(document).ready(function(){
+    // jsonファイル読み込み
+    $.ajax({url:'data.json', dataType:'json'})
+    //jsonが読み込まれた時の処理
+    .done(function(json_data){
+        // jsonの要素数を取得        
+        let keys_array = Object.keys(json_data);
+        json_length =  keys_array.length;
+        let add = `<p class="start_quiz" name="start_quiz" onclick="start_quiz()"  >start</p>`;
+        document
+        .getElementById("add_section")
+        .insertAdjacentHTML("beforeend", add);
+    })
+    //jsonの読み込みに失敗した時の処理
+    .fail(function(){
+        window.alert('JSON読み込みエラー');
+    });
+});
+
+function start_quiz(){
+    let add = `<input type="button" title="test" value="次の問題" onClick="next()" /><input type="button" value="答え" onClick="check_the_answer()"/>`;
+    
+    // startボタンを消して、次の問題ボタン、答えボタンを追加
+    let start_quiz = document.getElementsByName("start_quiz");
+    for (let item of start_quiz){
+        item.remove();
+    }
+    document
+    .getElementById("add_button")
+    .insertAdjacentHTML("beforeend", add);
+
+    url = "data.json"
+    get_data(1)    
+}
 
 //答え合わせボタンの機能
 function check_the_answer(){
