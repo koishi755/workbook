@@ -96,10 +96,10 @@ function next(){
     // ボタンを押した回数
     let element = document.getElementById("next")
     let end = element.dataset.end_quiz;
-    end += 1 ;
+    end = Number(end);
     count += 1;
     del();
-    if (count < end){
+    if (count < end + 1){
         get_data(count);
     }
     
