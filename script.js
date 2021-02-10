@@ -12,10 +12,11 @@ $(document).ready(function(){
         // jsonの要素数を取得        
         let keys_array = Object.keys(json_data);
         json_length =  keys_array.length;
-        let add = `<p class="start_quiz" name="start_quiz" onclick="start_quiz()"  >start</p>`;
-        document
-        .getElementById("add_section")
-        .insertAdjacentHTML("beforeend", add);
+        // jsonの要素数を10で割った数を求める
+        let i = count_quiz(json_length);
+        // json要素数の商分のボタンを追加
+        create_start(i);
+
     })
     //jsonの読み込みに失敗した時の処理
     .fail(function(){
@@ -23,14 +24,34 @@ $(document).ready(function(){
     });
 });
 
+function count_quiz(json_length){
+    let i = json_length / 10;
+    if (i < 1){
+        i = 1
+    }
+    i = Math.floor(i);
+    return i;
+}
+
+function create_start(i){
+    for (let step = 0; step < i; step++) {
+        // 値が 0 から 4 まで計 5 回実行される
+        let add = `<p class="start_quiz" name="start_quiz" onclick="start_quiz()">start</p>`;
+        document
+        .getElementById("add_section")
+        .insertAdjacentHTML("beforeend", add);
+      }
+}
+
 function start_quiz(){
     let add = `<input type="button" title="test" value="次の問題" onClick="next()" /><input type="button" value="答え" onClick="check_the_answer()"/>`;
     
     // startボタンを消して、次の問題ボタン、答えボタンを追加
-    let start_quiz = document.getElementsByName("start_quiz");
-    for (let item of start_quiz){
-        item.remove();
-    }
+    document
+    .getElementById("add_section")
+    .remove();
+
+    
     document
     .getElementById("add_button")
     .insertAdjacentHTML("beforeend", add);
