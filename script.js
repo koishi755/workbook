@@ -39,7 +39,7 @@ function create_start(i){
     for (let step = 0; step < i; step++) {
 
         
-        let add = `<p class="start_quiz" name="start_quiz" data-start_quiz=${start} data-end_quiz=${end} onclick="start_quiz()">start ${start}~${end}</p>`;
+        let add = `<p class="start_quiz" name="start_quiz" data-start_quiz=${start} data-end_quiz=${end} onclick="start_quiz(${start})">start ${start}~${end}</p>`;
         document
         .getElementById("add_section")
         .insertAdjacentHTML("beforeend", add);
@@ -48,9 +48,14 @@ function create_start(i){
       }
 }
 
-function start_quiz(){
-    let add = `<input type="button" title="test" value="次の問題"  onClick="next()" /><input type="button" value="答え" onClick="check_the_answer()"/>`;
+function start_quiz(start){
     
+    count = start
+    let element = document.getElementsByName("start_quiz")[start-1]
+    let end = element.dataset.end_quiz;
+
+    let add = `<input type="button" title="test" value="次の問題" id="next" data-end_quiz=${end} onClick="next()" /><input type="button" value="答え" onClick="check_the_answer()"/>`;
+
     // startボタンを消して、次の問題ボタン、答えボタンを追加
     document
     .getElementById("add_section")
@@ -62,7 +67,7 @@ function start_quiz(){
     .insertAdjacentHTML("beforeend", add);
 
     url = "data.json"
-    get_data(1)    
+    get_data(start)    
 }
 
 //答え合わせボタンの機能
@@ -89,9 +94,15 @@ function check_the_answer(){
 // 次の問題ボタン
 function next(){
     // ボタンを押した回数
+    let element = document.getElementById("next")
+    let end = element.dataset.end_quiz;
+    end += 1 ;
     count += 1;
     del();
-    get_data(count);
+    if (count < end){
+        get_data(count);
+    }
+    
 }
 
 // startボタン
@@ -128,7 +139,7 @@ function get_data(count){
             label_array.push(`<label for="${item.label}" name="label" data-answer="${item.answer}">${item.text}</label>`);
         });
         // 問題文を取り込み
-        let quiz_text = `<p>${json_data[count_str].quiz}</p>`;
+        let quiz_text = `<p>${count_str}. ${json_data[count_str].quiz}</p>`;
         
         let i = 0 ;
         let option = "";
