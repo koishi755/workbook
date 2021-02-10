@@ -34,17 +34,22 @@ function count_quiz(json_length){
 }
 
 function create_start(i){
+    let start = 1;
+    let end = 10;
     for (let step = 0; step < i; step++) {
-        // 値が 0 から 4 まで計 5 回実行される
-        let add = `<p class="start_quiz" name="start_quiz" onclick="start_quiz()">start</p>`;
+
+        
+        let add = `<p class="start_quiz" name="start_quiz" data-start_quiz=${start} data-end_quiz=${end} onclick="start_quiz()">start ${start}~${end}</p>`;
         document
         .getElementById("add_section")
         .insertAdjacentHTML("beforeend", add);
+        start += 10;
+        end += 10;
       }
 }
 
 function start_quiz(){
-    let add = `<input type="button" title="test" value="次の問題" onClick="next()" /><input type="button" value="答え" onClick="check_the_answer()"/>`;
+    let add = `<input type="button" title="test" value="次の問題"  onClick="next()" /><input type="button" value="答え" onClick="check_the_answer()"/>`;
     
     // startボタンを消して、次の問題ボタン、答えボタンを追加
     document
