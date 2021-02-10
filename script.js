@@ -2,6 +2,8 @@
 let count = 1 ;
 let url; 
 let json_length;
+// 何問毎に問題を区切りか定義
+let global_end = 5;
 
 // 画面を開いた時の処理
 $(document).ready(function(){
@@ -24,8 +26,9 @@ $(document).ready(function(){
     });
 });
 
+// jsonの要素数をNで割った数を求める
 function count_quiz(json_length){
-    let i = json_length / 10;
+    let i = json_length / global_end;
     if (i < 1){
         i = 1
     }
@@ -33,27 +36,33 @@ function count_quiz(json_length){
     return i;
 }
 
+// json要素数の商分のボタンを追加
 function create_start(i){
     let start = 1;
-    let end = 10;
+    let end = global_end;
+    let array_count = 0;
+    // 問題のスタート、終わり、name属性の数をカウントしながら、追記するhtmlを作成
     for (let step = 0; step < i; step++) {
-
-        
-        let add = `<p class="start_quiz" name="start_quiz" data-start_quiz=${start} data-end_quiz=${end} onclick="start_quiz(${start})">start ${start}~${end}</p>`;
+        let add = `<p class="start_quiz" name="start_quiz" data-end_quiz=${end} onclick="start_quiz(${start}, ${array_count})">start ${start}~${end}</p>`;
         document
         .getElementById("add_section")
         .insertAdjacentHTML("beforeend", add);
-        start += 10;
-        end += 10;
+        start += global_end;
+        end += global_end;
+        array_count += 1;
       }
 }
 
-function start_quiz(start){
+// 問題を始める時のボタン
+function start_quiz(start, array_count){
     
+    // 問題のスタートの位置を定義
     count = start
-    let element = document.getElementsByName("start_quiz")[start-1]
+    // 問題の終わりの位置を取得
+    let element = document.getElementsByName("start_quiz")[array_count]
     let end = element.dataset.end_quiz;
 
+    // htmlに記載する内容を定義
     let add = `<input type="button" title="test" value="次の問題" id="next" data-end_quiz=${end} onClick="next()" /><input type="button" value="答え" onClick="check_the_answer()"/>`;
 
     // startボタンを消して、次の問題ボタン、答えボタンを追加
@@ -61,7 +70,6 @@ function start_quiz(start){
     .getElementById("add_section")
     .remove();
 
-    
     document
     .getElementById("add_button")
     .insertAdjacentHTML("beforeend", add);
@@ -93,14 +101,23 @@ function check_the_answer(){
 
 // 次の問題ボタン
 function next(){
-    // ボタンを押した回数
+    // 問題の終わり位置を取得
     let element = document.getElementById("next")
     let end = element.dataset.end_quiz;
     end = Number(end);
+    // ボタンを押した回数
     count += 1;
     del();
+
     if (count < end + 1){
         get_data(count);
+    }else{
+        document
+        .getElementById("article")
+        .insertAdjacentHTML("beforeend", "<p>問題は終わりです。</p><p>あなたの正解数はXXXです</p>");
+        document
+        .getElementById("add_button")
+        .remove();
     }
     
 }
